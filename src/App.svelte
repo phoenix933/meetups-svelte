@@ -62,7 +62,9 @@
 <Header />
 
 <main>
-    <Button caption="Add Meetup" on:click="{toggleMeetupForm}" />
+    <Button on:click="{toggleMeetupForm}">
+        Add Meetup
+    </Button>
 
     {#if meetupFormVisible}
         <MeetupForm on:save="{addMeetup}" />
