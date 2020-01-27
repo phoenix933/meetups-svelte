@@ -18,6 +18,10 @@
     function toggleFavorite() {
         dispatch('toggleFavorite', id);
     }
+
+    function showDetails() {
+        dispatch('showDetails', id);
+    }
 </script>
 
 <style>
@@ -104,7 +108,7 @@
             { isFavorite ? 'Unfavorite' : 'Favorite' }
         </Button>
 
-        <Button type="button">
+        <Button type="button" on:click="{showDetails}">
             Show details
         </Button>
     </footer>
