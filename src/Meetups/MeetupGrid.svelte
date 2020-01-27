@@ -1,7 +1,16 @@
 <script>
     import MeetupItem from './MeetupItem.svelte';
+    import MeetupFilter from './MeetupFilter.svelte';
 
     export let meetups;
+
+    let selectedAll = true;
+
+    $: filteredMeetups = selectedAll ? meetups : meetups.filter(m => m.isFavorite);
+
+    function selectAll(event) {
+        selectedAll = event.detail;
+    }
 </script>
 
 <style>
@@ -19,8 +28,12 @@
     }
 </style>
 
+<section>
+    <MeetupFilter on:selectAll={selectAll} />
+</section>
+
 <section id="meetups">
-    {#each meetups as meetup}
+    {#each filteredMeetups as meetup}
         <MeetupItem {...meetup} on:toggleFavorite on:showDetails on:edit />
     {/each}
 </section>
