@@ -32,6 +32,10 @@
         dispatch('save', meetup);
     }
 
+    function deleteMeetup() {
+        dispatch('delete', id);
+    }
+
     function cancel() {
         dispatch('cancel');
     }
@@ -85,7 +89,11 @@
     </form>
 
     <div slot="footer">
-        <Button type="button" mode="outline" on:click={cancel}>Cancel</Button>
-        <Button type="button" on:click={saveMeetup}>Save</Button>
+        <Button type="button" mode="outline" on:click="{cancel}">Cancel</Button>
+        <Button type="button" on:click="{saveMeetup}">Save</Button>
+
+        {#if id}
+            <Button type="button" on:click="{deleteMeetup}">Delete</Button>
+        {/if}
     </div>
 </Modal>

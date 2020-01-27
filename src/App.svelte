@@ -21,12 +21,11 @@
 
         if (m.id) {
             meetups.updateMeetup(m.id, m);
-            meetup = meetupInitialvalue;
         } else {
             meetups.addMeetup(m);
         }
 
-        toggleMeetupForm();
+        closeMeetupFormModal();
     }
 
     function editMeetup(event) {
@@ -34,6 +33,13 @@
         meetup = meetups.getMeetup(id);
 
         toggleMeetupForm();
+    }
+
+    function deleteMeetup(event) {
+        const id = event.detail;
+        meetups.deleteMeetup(id);
+
+        closeMeetupFormModal();
     }
 
     function toggleFavorite(event) {
@@ -88,7 +94,8 @@
             <MeetupForm
                 meetup={$meetup}
                 on:save="{saveMeetup}"
-                on:cancel="{closeMeetupFormModal}" />
+                on:cancel="{closeMeetupFormModal}"
+                on:delete="{deleteMeetup}" />
         {/if}
         <MeetupGrid
             meetups={$meetups}
