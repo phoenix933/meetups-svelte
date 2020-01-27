@@ -13,11 +13,25 @@
 
     let page = 'overview';
 
-    let meetup = writable(null);
+    const meetupInitialvalue = writable(null);
+    let meetup = meetupInitialvalue;
 
-    function addMeetup(event) {
-        const meetup = event.detail;
-        meetups.addMeetup(meetup);
+    function saveMeetup(event) {
+        const m = event.detail;
+
+        if (m.id) {
+            meetups.updateMeetup(m.id, m);
+            meetup = meetupInitialvalue;
+        } else {
+            meetups.addMeetup(m);
+        }
+
+        toggleMeetupForm();
+    }
+
+    function editMeetup(event) {
+        const id = event.detail;
+        meetup = meetups.getMeetup(id);
 
         toggleMeetupForm();
     }
@@ -40,6 +54,12 @@
 
     function showOverview() {
         page = 'overview';
+        meetup = meetupInitialvalue;
+    }
+
+    function closeMeetupFormModal() {
+        toggleMeetupForm();
+        meetup = meetupInitialvalue;
     }
 </script>
 
@@ -65,9 +85,16 @@
         </Button>
 
         {#if meetupFormVisible}
-            <MeetupForm on:save="{addMeetup}" on:cancel="{toggleMeetupForm}" />
+            <MeetupForm
+                meetup={$meetup}
+                on:save="{saveMeetup}"
+                on:cancel="{closeMeetupFormModal}" />
         {/if}
-        <MeetupGrid meetups={$meetups} on:toggleFavorite="{toggleFavorite}" on:showDetails="{showDetails}" />
+        <MeetupGrid
+            meetups={$meetups}
+            on:toggleFavorite="{toggleFavorite}"
+            on:showDetails="{showDetails}"
+            on:edit="{editMeetup}" />
     {:else}
         <MeetupDetail meetup={$meetup} on:close="{showOverview}" />
     {/if}

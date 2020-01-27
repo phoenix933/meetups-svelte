@@ -5,6 +5,9 @@
     import Button from '../Shared/Button.svelte';
     import Modal from '../Shared/Modal.svelte';
 
+    export let meetup;
+
+    let id = null;
     let title = "";
     let subtitle = "";
     let address = "";
@@ -14,10 +17,18 @@
 
     const dispatch = createEventDispatcher();
 
-    function saveMeetup() {
-        const id = new Date().getTime().toString();
-        const meetup = { id, title, subtitle, address, email, description, imageUrl };
+    if (meetup) {
+        id = meetup.id;
+        title = meetup.title;
+        subtitle = meetup.subtitle;
+        address = meetup.address;
+        email = meetup.email;
+        description = meetup.description;
+        imageUrl = meetup.imageUrl;
+    }
 
+    function saveMeetup() {
+        const meetup = { id, title, subtitle, address, email, description, imageUrl };
         dispatch('save', meetup);
     }
 

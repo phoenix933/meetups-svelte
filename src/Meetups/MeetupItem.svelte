@@ -22,6 +22,10 @@
     function showDetails() {
         dispatch('showDetails', id);
     }
+
+    function edit() {
+        dispatch('edit', id);
+    }
 </script>
 
 <style>
@@ -97,8 +101,8 @@
         <p>{description}</p>
     </div>
     <footer>
-        <Button href="mailto:{email}">
-            Contact
+        <Button type="button" mode="outline" on:click="{edit}">
+            Edit
         </Button>
 
         <Button

@@ -36,7 +36,11 @@ const meetupsStore = {
 
         return meetup;
     },
-    addMeetup: (meetup) => store.update((meetups) => [meetup, ...meetups]),
+    addMeetup: (meetup) => {
+        const id = new Date().getTime().toString();
+        return store.update((meetups) => [{ ...meetup, id }, ...meetups]);
+    },
+    updateMeetup: (id, meetup) =>  store.update((meetups) => meetups.map(m => m.id === id ? { ...m, ...meetup } : m)),
     toggleFavorite: (id) => store.update((meetups) => meetups.map(m => m.id === id ? { ...m, isFavorite: !m.isFavorite } : m))
 };
 
