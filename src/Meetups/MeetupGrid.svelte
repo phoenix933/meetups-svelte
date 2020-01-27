@@ -1,4 +1,7 @@
 <script>
+    import { scale } from 'svelte/transition';
+    import { flip } from 'svelte/animate';
+
     import MeetupItem from './MeetupItem.svelte';
     import MeetupFilter from './MeetupFilter.svelte';
 
@@ -33,7 +36,9 @@
 </section>
 
 <section id="meetups">
-    {#each filteredMeetups as meetup}
-        <MeetupItem {...meetup} on:toggleFavorite on:showDetails on:edit />
+    {#each filteredMeetups as meetup (meetup.id)}
+        <div transition:scale animate:flip={{duration: 300}}>
+            <MeetupItem {...meetup} on:toggleFavorite on:showDetails on:edit />
+        </div>
     {/each}
 </section>
