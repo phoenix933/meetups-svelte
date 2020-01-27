@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 
 const initialState = [{
     id: "m1",
@@ -28,6 +28,14 @@ const store = writable(initialState);
 
 const meetupsStore = {
     subscribe: store.subscribe,
+    getMeetup: (id) => {
+        const meetup = derived(
+            store,
+            $store => $store.find(m => m.id === id)
+        );
+
+        return meetup;
+    },
     addMeetup: (meetup) => store.update((meetups) => [meetup, ...meetups]),
     toggleFavorite: (id) => store.update((meetups) => meetups.map(m => m.id === id ? { ...m, isFavorite: !m.isFavorite } : m))
 };

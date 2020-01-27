@@ -1,4 +1,6 @@
 <script>
+    import { writable } from 'svelte/store';
+
     import meetups from './Meetups/meetups-store.js';
 
     import Header from './Shared/Header.svelte';
@@ -11,7 +13,7 @@
 
     let page = 'overview';
 
-    let meetup;
+    let meetup = writable(null);
 
     function addMeetup(event) {
         const meetup = event.detail;
@@ -31,11 +33,7 @@
 
     function showDetails(event) {
         const id = event.detail;
-        const unsubscribe = meetups.subscribe(ms => {
-            meetup = ms.find(m => m.id === id);
-        });
-
-        unsubscribe();
+        meetup = meetups.getMeetup(id);
 
         page = 'details';
     }
@@ -71,7 +69,7 @@
         {/if}
         <MeetupGrid meetups={$meetups} on:toggleFavorite="{toggleFavorite}" on:showDetails="{showDetails}" />
     {:else}
-        <MeetupDetail {meetup} on:close="{showOverview}" />
+        <MeetupDetail meetup={$meetup} on:close="{showOverview}" />
     {/if}
 
 </main>
