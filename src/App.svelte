@@ -35,6 +35,8 @@
     function addMeetup(event) {
         const meetup = event.detail;
         meetups = [ meetup, ...meetups ];
+
+        toggleMeetupForm();
     }
 
     function toggleFavorite(event) {
@@ -67,7 +69,7 @@
     </Button>
 
     {#if meetupFormVisible}
-        <MeetupForm on:save="{addMeetup}" />
+        <MeetupForm on:save="{addMeetup}" on:cancel="{toggleMeetupForm}" />
     {/if}
 
     <MeetupGrid {meetups} on:toggleFavorite="{toggleFavorite}" />
